@@ -58,42 +58,112 @@ namespace Project_Two
             //List of superbowl winners
             sbList.ForEach(x => Console.WriteLine($"The Winner was {x.Winner} Year: {x.Date} Winning QB: {x.QB_Winner} Coach: {x.Coach_Winner} MVP: {x.MVP} Difference in Points = {x.Winning_Pts - x.Losin_Pts}\n"));
 
-            //Average Attendance for all Super Bowls
-            var averageQuery = (from SB_Info in sbList
-                            select SB_Info.Attendance).Average();
-            double average = averageQuery;
-            Console.WriteLine("Average Attendance is {0}", average);
-
-            //Largest point difference (currently displays full list of point difference instead of the highest)
+            //Greatest point diffence (currently only shows point diffence not what superbowl it is)
             var pointDifQuery = (from SB_Info in sbList
-                                  let dif = SB_Info.Winning_Pts - SB_Info.Losin_Pts
-                                  group new {SB_Info.SB} by dif into SBgroup
-                                  orderby SBgroup.Key
-                                  select SBgroup);
+                                 let dif = SB_Info.Winning_Pts - SB_Info.Losin_Pts
+                                 group new { SB_Info.SB } by dif into SBgroup
+                                 orderby SBgroup.Key
+                                 select SBgroup);
             foreach (var SBgroup in pointDifQuery)
             {
-                
-                Console.WriteLine($"SB with largest Point differance {SBgroup.Key}");
+                if (SBgroup.Key == pointDifQuery.Max(x=>x.Key))
+                {
+                    Console.WriteLine($"Super Bowl had the largest Point differance {SBgroup.Key}\n");
+                }
+            }
+            //The state that has hosted the most superbowls
+            var StateQuery = from SB_Info in sbList
+                                .GroupBy(SB_Info => SB_Info.State)
+                                select new
+                                {
+                                    SB_Info.Key,
+                                    Most = SB_Info.Count()
+                                };
+            foreach (var SB_Info in StateQuery)
+            {
+                if (SB_Info.Most == StateQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{SB_Info.Key} has hosted {SB_Info.Most}\n");
+                }
+            }
+            //MPV Winners
+            var mvpQuery = from SB_Info in sbList
+                           group SB_Info by SB_Info.MVP into MVPGroup
+                           where MVPGroup.Count() > 1
+                           orderby MVPGroup.Key
+                           select MVPGroup;
+            foreach (var MVPGroup in mvpQuery)
+            {
+                Console.WriteLine($"{MVPGroup.Key} has {MVPGroup.Count()}.\n");
             }
 
-            //var coachwonQuery = from SB_Info in sbList
-            //                    select SB_Info.Coach_Winner
-                                
+            //Coach(s) That Lost the most superbowls
+            var CoachLostQuery = from SB_Info in sbList
+                                .GroupBy(SB_Info => SB_Info.Coach_Loser)
+                                select new
+                                {
+                                    SB_Info.Key,
+                                    Most = SB_Info.Count()
+                                };
+            foreach (var SB_Info in CoachLostQuery)
+            {
+                if (SB_Info.Most == CoachLostQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{SB_Info.Key} lost {SB_Info.Most}\n");
+                }
+            }
 
+            //Coach(s) That won the most superbowls
+            var CoachWonQuery = from SB_Info in sbList
+                                .GroupBy(SB_Info => SB_Info.Coach_Winner)
+                                select new
+                                {
+                                    SB_Info.Key,
+                                    Most = SB_Info.Count()
+                                };
+            foreach (var SB_Info in CoachWonQuery)
+            {
+                if (SB_Info.Most == CoachWonQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{SB_Info.Key} won {SB_Info.Most}\n");
+                }
+            }
+            //Team(s) that lost the most superbowls
+            var TeamLostQuery = from SB_Info in sbList
+                                .GroupBy(SB_Info => SB_Info.Loser)
+                                select new
+                                {
+                                    SB_Info.Key,
+                                    Most = SB_Info.Count()
+                                };
+            foreach (var SB_Info in TeamLostQuery)
+            {
+                if (SB_Info.Most == TeamLostQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{SB_Info.Key} Lost {SB_Info.Most}\n");
+                }
+            }
+            //Team(s) that won the most superbowls
+            var TeamWonQuery = from SB_Info in sbList
+                                .GroupBy(SB_Info => SB_Info.Winner)
+                                select new
+                                {
+                                    SB_Info.Key,
+                                    Most = SB_Info.Count()
+                                };
+            foreach (var SB_Info in TeamWonQuery)
+            {
+                if (SB_Info.Most == TeamWonQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{SB_Info.Key} won {SB_Info.Most}\n");
+                }
+            }
+            //Average Attendance for all Super Bowls
+            var averageQuery = (from SB_Info in sbList
+                                select SB_Info.Attendance).Average();
+            double average = averageQuery;
+            Console.WriteLine($"Average Attendance is {average}\n");
 
-
-            
-            //Players that won MVP more than once (can't get this to display properly)
-            //var mvpQuery = from SB_Info in sbList
-            //               group SB_Info by SB_Info.MVP.GroupBy(x => x)
-            //               .Where(g => g.Count() > 1)
-            //               .Select(g => g.Key)
-            //               .ToList();
-
-            //foreach (var g in mvpQuery)
-            //    Console.WriteLine(g.Key);
-
-            
             //foreach (int topn in top5Query.Max()) 
             //{
             //    Console.WriteLine(topn);
