@@ -2,31 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+//using System.Runtime.Serialization.Formatters.Binary;
+//using System.Runtime.Serialization;
 
 namespace Project_Two
 {
     class Program
     {
+        private static object mvpQuery;
+
         static void Main(string[] args)
         {
-            /**Your application should allow the end user to pass end a file path for output 
-            * or guide them through generating the file.
-            **/
-            //string Date;
-            //string SB;
-            //int Attendance;
-            //string QB_Winner;
-            //string Coach_Winner;
-            //string Winner;
-            //int Winning_Pts;
-            //string QB_Loser;
-            //string Coach_Loser;
-            //string Loser;
-            //int Losin_Pts;
-            //string MVP;
-            //string Stadium;
-            //string City;
-            //string State;
 
             const string PATH = @"C:\Users\steantc\Documents\CWEB2010\Project2\super-bowl-data-analytics-program-project-2-Steantc\Super_Bowl_Project.csv";
 
@@ -60,31 +46,65 @@ namespace Project_Two
                 read.Close();
                 input.Close();
 
-            
-            Console.WriteLine
+
+
+            //Console.WriteLine
             //}
             //catch (Exception e)
             //{
             //    Console.WriteLine(e.Message);
             //}
 
-            //sbList.ForEach(x => Console.WriteLine(x.ToString()));
+            //List of superbowl winners
+            sbList.ForEach(x => Console.WriteLine($"The Winner was {x.Winner} Year: {x.Date} Winning QB: {x.QB_Winner} Coach: {x.Coach_Winner} MVP: {x.MVP} Difference in Points = {x.Winning_Pts - x.Losin_Pts}\n"));
 
-            //IEnumerable<SB_Info> 
-            //var top5Query =
-            //    from SB_Info in sbList
-            //    select SB_Info.Attendance;
+            //Average Attendance for all Super Bowls
+            var averageQuery = (from SB_Info in sbList
+                            select SB_Info.Attendance).Average();
+            double average = averageQuery;
+            Console.WriteLine("Average Attendance is {0}", average);
+
+            //Largest point difference (currently displays full list of point difference instead of the highest)
+            var pointDifQuery = (from SB_Info in sbList
+                                  let dif = SB_Info.Winning_Pts - SB_Info.Losin_Pts
+                                  group new {SB_Info.SB} by dif into SBgroup
+                                  orderby SBgroup.Key
+                                  select SBgroup);
+            foreach (var SBgroup in pointDifQuery)
+            {
+                
+                Console.WriteLine($"SB with largest Point differance {SBgroup.Key}");
+            }
+
+            //var coachwonQuery = from SB_Info in sbList
+            //                    select SB_Info.Coach_Winner
+                                
+
+
+
             
-            //foreach (int topn in top5Query.Take(5))
+            //Players that won MVP more than once (can't get this to display properly)
+            //var mvpQuery = from SB_Info in sbList
+            //               group SB_Info by SB_Info.MVP.GroupBy(x => x)
+            //               .Where(g => g.Count() > 1)
+            //               .Select(g => g.Key)
+            //               .ToList();
+
+            //foreach (var g in mvpQuery)
+            //    Console.WriteLine(g.Key);
+
+            
+            //foreach (int topn in top5Query.Max()) 
             //{
             //    Console.WriteLine(topn);
             //}
+            //var top5Query = sbList.Where<SB_Info>(from SB_Info.)
 
 
 
         }
     }
-
+    //[Serializable]
     class SB_Info
     {
         public string Date { get; set; }
