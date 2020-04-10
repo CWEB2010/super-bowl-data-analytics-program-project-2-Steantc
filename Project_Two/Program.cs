@@ -58,7 +58,19 @@ namespace Project_Two
             //List of superbowl winners
             sbList.ForEach(x => Console.WriteLine($"The Winner was {x.Winner} Year: {x.Date} Winning QB: {x.QB_Winner} Coach: {x.Coach_Winner} MVP: {x.MVP} Difference in Points = {x.Winning_Pts - x.Losin_Pts}\n"));
 
-            //Greatest point diffence (currently only shows point diffence not what superbowl it is)
+            var top5Query = from SB_Info in sbList
+                           group SB_Info by SB_Info.Attendance into AttendanceGroup
+                           orderby AttendanceGroup.Key
+                           select AttendanceGroup;
+            foreach (var AttendaceGroup in top5Query)
+            {
+                if (AttendaceGroup.Key == top5Query.Max(x => x.Key))
+                {
+                    Console.WriteLine($"Top 5 {AttendaceGroup.Key}\n");
+                }
+            }
+
+            //Greatest point diffence 
             var pointDifQuery = (from SB_Info in sbList
                                  let dif = SB_Info.Winning_Pts - SB_Info.Losin_Pts
                                  group new { SB_Info.SB } by dif into SBgroup
@@ -68,24 +80,49 @@ namespace Project_Two
             {
                 if (SBgroup.Key == pointDifQuery.Max(x=>x.Key))
                 {
-                    Console.WriteLine($"Super Bowl had the largest Point differance {SBgroup.Key}\n");
+                    Console.WriteLine($"The largest Point difference was {SBgroup.Key}");
+                    foreach (var SB_Info in SBgroup)
+                    {
+                        Console.WriteLine($"at SuperBowl {SB_Info.SB}");
+                    }
+                }
+            }
+
+        //test for state
+
+            var StateQuery = from SB_Info in sbList
+                             group SB_Info by SB_Info.State into StateGroup
+                             select new
+                             {
+                                 StateGroup.Key,
+                                 Most = StateGroup.Count()
+                             };
+            foreach (var StateGroup in StateQuery)
+            {
+                if (StateGroup.Most == StateQuery.Max(x => x.Most))
+                {
+                    Console.WriteLine($"{StateGroup.Key} has hosted {StateGroup.Most}");
+                    foreach (var SB_Info in StateGroup)
+                    {
+                        Console.WriteLine($"The stadium is {SB_Info.Stadium} in {SB_Info.City}");
+                    }
                 }
             }
             //The state that has hosted the most superbowls (Still needs to display City and stadium
-            var StateQuery = from SB_Info in sbList
-                                .GroupBy(SB_Info => SB_Info.State)
-                                select new
-                                {
-                                    SB_Info.Key,
-                                    Most = SB_Info.Count()
-                                };
-            foreach (var SB_Info in StateQuery)
-            {
-                if (SB_Info.Most == StateQuery.Max(x => x.Most))
-                {
-                    Console.WriteLine($"{SB_Info.Key} has hosted {SB_Info.Most}\n");
-                }
-            }
+            //var StateQuery = from SB_Info in sbList
+            //                    .GroupBy(SB_Info => SB_Info.State)
+            //                    select new
+            //                    {
+            //                        SB_Info.Key,
+            //                        Most = SB_Info.Count()
+            //                    };
+            //foreach (var SB_Info in StateQuery)
+            //{
+            //    if (SB_Info.Most == StateQuery.Max(x => x.Most))
+            //    {
+            //        Console.WriteLine($"{SB_Info.Key} has hosted {SB_Info.Most}\n");
+            //    }
+            //}
             //MPV Winners (still needs to show winning team and loseing team)
             var mvpQuery = from SB_Info in sbList
                            group SB_Info by SB_Info.MVP into MVPGroup
@@ -94,7 +131,11 @@ namespace Project_Two
                            select MVPGroup;
             foreach (var MVPGroup in mvpQuery)
             {
-                Console.WriteLine($"{MVPGroup.Key} has {MVPGroup.Count()}.\n");
+                Console.WriteLine($"{MVPGroup.Key} has {MVPGroup.Count()}.");
+                foreach (var SB_Info in MVPGroup)
+                {
+                    Console.WriteLine($"The winner at SuperBowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
+                }
             }
 
             //Coach(s) That Lost the most superbowls
