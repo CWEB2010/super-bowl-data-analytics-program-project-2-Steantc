@@ -71,7 +71,7 @@ namespace Project_Two
                     Console.WriteLine($"Super Bowl had the largest Point differance {SBgroup.Key}\n");
                 }
             }
-            //The state that has hosted the most superbowls
+            //The state that has hosted the most superbowls (Still needs to display City and stadium
             var StateQuery = from SB_Info in sbList
                                 .GroupBy(SB_Info => SB_Info.State)
                                 select new
@@ -86,7 +86,7 @@ namespace Project_Two
                     Console.WriteLine($"{SB_Info.Key} has hosted {SB_Info.Most}\n");
                 }
             }
-            //MPV Winners
+            //MPV Winners (still needs to show winning team and loseing team)
             var mvpQuery = from SB_Info in sbList
                            group SB_Info by SB_Info.MVP into MVPGroup
                            where MVPGroup.Count() > 1
