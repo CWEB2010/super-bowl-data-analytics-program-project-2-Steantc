@@ -118,8 +118,8 @@ namespace Project_Two
                     writer.WriteLine($"\n{MVPGroup.Key} with {MVPGroup.Count()}.");
                     foreach (var SB_Info in MVPGroup)
                     {
-                        Console.WriteLine($"The winner at Super Bowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
-                        writer.WriteLine($"The winner at Super Bowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
+                        Console.WriteLine($"The winner at Super Bowl {SB_Info.SB} was the {SB_Info.Winner} and the loser was the {SB_Info.Loser}");
+                        writer.WriteLine($"The winner at Super Bowl {SB_Info.SB} was the {SB_Info.Winner} and the loser was the {SB_Info.Loser}");
                     }
                 }
 
