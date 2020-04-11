@@ -250,7 +250,7 @@ namespace Project_Two
             this.Date = date;
             this.SB = sb;
             this.Attendance = attendance;
-            this.QB_Winner = QB_Winner;
+            this.QB_Winner = qB_winner;
             this.Coach_Winner = coach_winner;
             this.Winner = winner;
             this.Winning_Pts = winning_pts;
