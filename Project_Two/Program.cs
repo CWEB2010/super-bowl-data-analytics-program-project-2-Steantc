@@ -71,9 +71,9 @@ namespace Project_Two
                 sbList.ForEach(x => Console.WriteLine($"The Winner was {x.Winner} Year: {x.Date} Winning QB: {x.QB_Winner} Coach: {x.Coach_Winner} MVP: {x.MVP} Difference in Points = {x.Winning_Pts - x.Losin_Pts}             "));//extra space for formatting
                 sbList.ForEach(x => writer.WriteLine($"The Winner was {x.Winner} Year: {x.Date} Winning QB: {x.QB_Winner} Coach: {x.Coach_Winner} MVP: {x.MVP} Difference in Points = {x.Winning_Pts - x.Losin_Pts}             "));
 
-                //List of the top 5 attened superbowls
-                Console.WriteLine("\nThe Top 5 attened Super Bowls\n");
-                writer.WriteLine("\nThe Top 5 attened Super Bowls\n");
+                //List of the top 5 attended superbowls
+                Console.WriteLine("\nThe Top 5 attended Super Bowls\n");
+                writer.WriteLine("\nThe Top 5 attended Super Bowls\n");
                 var top5Query = (from SB_Info in sbList
                                  orderby SB_Info.Attendance descending
                                  select SB_Info).Take(5);
@@ -199,7 +199,7 @@ namespace Project_Two
                     }
                 }
 
-                //Greatest point diffence 
+                //Greatest point differnce 
                 var pointDifQuery = (from SB_Info in sbList
                                      let dif = SB_Info.Winning_Pts - SB_Info.Losin_Pts
                                      group new { SB_Info.SB } by dif into SBgroup
