@@ -92,7 +92,7 @@ namespace Project_Two
                                select stateGroups;
                 foreach (var outerGroup in qryState)
                 {
-                    Console.WriteLine($"\nThe state that has hosted the most superbowls is {outerGroup.Key}: \n");
+                    Console.WriteLine($"\nThe state that has hosted the most Super Bowls is {outerGroup.Key}: \n");
                     writer.WriteLine($"\nThe state that has hosted the most superbowls is {outerGroup.Key}: \n");
                     foreach (var MostGroup in qryState)
                     {
@@ -118,8 +118,8 @@ namespace Project_Two
                     writer.WriteLine($"\n{MVPGroup.Key} with {MVPGroup.Count()}.");
                     foreach (var SB_Info in MVPGroup)
                     {
-                        Console.WriteLine($"The winner at SuperBowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
-                        writer.WriteLine($"The winner at SuperBowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
+                        Console.WriteLine($"The winner at Super Bowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
+                        writer.WriteLine($"The winner at Super Bowl {SB_Info.SB} was {SB_Info.Winner} and the loser was {SB_Info.Loser}");
                     }
                 }
 
